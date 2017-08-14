@@ -68,6 +68,9 @@
     mode: 0644
   notify: restart varnish
 
+- name: flush handlers to apply config changes
+  meta: flush_handlers
+
 - name: Ensure Varnish services are started enabled on startup.
   service:
     name: "{{ item }}"
