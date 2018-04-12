@@ -27,6 +27,7 @@
   when: >
     (ansible_os_family == 'RedHat' and ansible_distribution_major_version|int < 7) or
     (ansible_os_family == 'Debian' and ansible_distribution_release != "xenial")
+  notify: restart varnish
 
 - name: Copy Debian Jessie/Xenial specific Varnish configs (systemd).
   template:
@@ -71,6 +72,9 @@
     group: root
     mode: 0644
   notify: restart varnish
+
+- name: Flush Handlers to Apply Config Changes
+  meta: flush_handlers
 
 - name: Ensure Varnish services are started and enabled on startup.
   service:
